@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ListarClient", ".", "{02541B5E-CA63-4FCC-959F-7BB149E3DF70}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61234"
+		Debug.AspNetCompiler.PhysicalPath = "..\ListarClient\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61234\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61234"
+		Release.AspNetCompiler.PhysicalPath = "..\ListarClient\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61234\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "61234"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02541B5E-CA63-4FCC-959F-7BB149E3DF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02541B5E-CA63-4FCC-959F-7BB149E3DF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFCA1C57-2A9D-48C6-8969-6C9BAA6E4892}
+	EndGlobalSection
+EndGlobal
