@@ -42,8 +42,19 @@ public partial class Cadastro_CadClient : Page
 
         try
         {
-            CarregaDados();
-            mostrarPainel(true, true, false);
+            /* Verifica se o registro é único */
+            if (_Ini == _Fin)
+            {
+                hCodigo.Value = _Ini.ToString();
+                RegistroUnico();
+                mostrarPainel(false, true, true);
+                habilitarBtn(false, true, true, false, false, true);
+            }
+            else
+            {
+                CarregaDados();
+                mostrarPainel(true, true, false);
+            }
         }
         catch
         {
@@ -68,7 +79,17 @@ public partial class Cadastro_CadClient : Page
 
     protected void btnCancelar_Click(object sender, EventArgs e)
     {
-        mostrarPainel(true, false, false);
+        if (hOperacao.Value == "U")
+        {
+            hOperacao.Value = "C";
+            mostrarPainel(true, true, false);
+            habilitarBtn(false, true, true, false, false, true);
+            habilitarCad(false, false, false);
+        }
+        else
+        {
+            mostrarPainel(true, false, false);
+        }
     }
 
     protected void btnAlterar_Click(object sender, EventArgs e)
@@ -76,7 +97,7 @@ public partial class Cadastro_CadClient : Page
         try
         {
             hOperacao.Value = "U";
-            habilitarBtn(true, true, false, true, true);
+            habilitarBtn(true, true, false, true, true, false);
             habilitarCad(true, true, true);
         }
         catch
@@ -110,6 +131,22 @@ public partial class Cadastro_CadClient : Page
         }
     }
 
+    protected void btnNovo_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            hOperacao.Value = "I";
+            Limpar();
+            mostrarPainel(false, true, true);
+            habilitarBtn(true, true, false, false, false, false);
+            habilitarCad(true, true, true);
+        }
+        catch
+        {
+
+        }
+    }
+
     protected void lkInserir_Click(object sender, EventArgs e)
     {
         try
@@ -117,7 +154,7 @@ public partial class Cadastro_CadClient : Page
             hOperacao.Value = "I";
             Limpar();
             mostrarPainel(false, false, true);
-            habilitarBtn(true, true, false, true, false);
+            habilitarBtn(true, true, false, false, false, false);
             habilitarCad(true, true, true);
         }
         catch
@@ -144,13 +181,14 @@ public partial class Cadastro_CadClient : Page
         txtFone.Enabled = Fone;
     }
 
-    protected void habilitarBtn(bool Gravar, bool Cancelar, bool Alterar, bool Limpar, bool Excluir)
+    protected void habilitarBtn(bool Gravar, bool Cancelar, bool Alterar, bool Limpar, bool Excluir, bool Novo)
     {
         btnGravar.Visible = Gravar;
         btnCancelar.Visible = Cancelar;
         btnAlterar.Visible = Alterar;
         btnLimpar.Visible = Limpar;
         btnExcluir.Visible = Excluir;
+        btnNovo.Visible = Novo;
     }
 
     protected void CarregaDados()
@@ -246,7 +284,7 @@ public partial class Cadastro_CadClient : Page
             if (hOperacao.Value != "D")
             {
                 hOperacao.Value = "D";
-                habilitarBtn(false, true, false, false, true);
+                habilitarBtn(false, true, false, false, true, false);
             }
             else
             {
@@ -289,13 +327,26 @@ public partial class Cadastro_CadClient : Page
     // Valida Filtro
     protected bool ValidaFiltro()
     {
+        /* Trata nulo */
         if (!string.IsNullOrEmpty(txtInicial.Text)) _Ini = Convert.ToInt32(txtInicial.Text);
         else _Ini = 1;
 
         if (!string.IsNullOrEmpty(txtFinal.Text)) _Fin = Convert.ToInt32(txtFinal.Text);
         else _Fin = 99999999;
 
-        if (_Ini > _Fin)
+        if (_Ini == 0)
+        {
+            this.msg = "Informe o código inicial entre 1 e 99999999";
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "Mensagem", "alert('" + msg + "'); ", true);
+            return false;
+        }
+        else if (_Fin == 0)
+        {
+            this.msg = "Informe o código final entre 1 e 99999999";
+            ClientScript.RegisterClientScriptBlock(this.GetType(), "Mensagem", "alert('" + msg + "'); ", true);
+            return false;
+        }
+        else if (_Ini > _Fin)
         {
             this.msg = "O código inicial não pode ser maior que o código final";
             ClientScript.RegisterClientScriptBlock(this.GetType(), "Mensagem", "alert('" + msg + "'); ", true);
@@ -339,8 +390,26 @@ public partial class Cadastro_CadClient : Page
         }
 
         mostrarPainel(false, true, true);
-        habilitarBtn(false, true, true, false, false);
+        habilitarBtn(false, true, true, false, false, true);
         habilitarCad(false, false, false);
+
+    }
+
+    // Seleciona o cadastro único
+    protected void RegistroUnico()
+    {
+        DataTable oDt = new DataTable();
+        Conexao oConnect = new Conexao(strConexao);
+        DALCadastro oConsulta = new DALCadastro(oConnect);
+
+        int id = Convert.ToInt32(hCodigo.Value);
+
+        oDt = oConsulta.SelCadastro(id);
+
+        txtCodigo.Text = oDt.Rows[0]["id"].ToString();
+        txtNome.Text = oDt.Rows[0]["nome_client"].ToString();
+        txtEmail.Text = oDt.Rows[0]["email_client"].ToString();
+        txtFone.Text = oDt.Rows[0]["tel_client"].ToString();
 
     }
 

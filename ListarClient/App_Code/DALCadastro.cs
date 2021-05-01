@@ -60,26 +60,12 @@ public class DALCadastro
         return oDt;
     }
 
-    public Cadastro SelCadastro(int codigo)
+    public DataTable SelCadastro(int codigo)
     {
-        Cadastro oCadastro = new Cadastro();
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = objConex.objConex;
-        cmd.CommandText = "select * from cadClient where id = " + codigo.ToString();
-        objConex.Conectar();
-        SqlDataReader regSel = cmd.ExecuteReader();
-
-        if (regSel.HasRows)
-        {
-            regSel.Read();
-            oCadastro.Id = Convert.ToInt32(regSel["id"]);
-            oCadastro.Nome = Convert.ToString(regSel["nome_client"]);
-            oCadastro.Email = Convert.ToString(regSel["email_client"]);
-            oCadastro.Fone = Convert.ToString(regSel["tel_client"]);
-        }
-
-        return oCadastro;
-
+        DataTable oDt = new DataTable();
+        SqlDataAdapter oLista = new SqlDataAdapter("select * from cadClient where id = " + codigo, objConex.StringConexao);
+        oLista.Fill(oDt);
+        return oDt;
     }
 
 }
